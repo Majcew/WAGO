@@ -12,3 +12,13 @@ class Line
         q.stroke();
     }
 }
+class Circle{
+    constructor(context){
+        this.context = q;
+    }
+    draw(x,y,r,k1,k2){
+        q.beginPath();
+        q.arc(x,y,r,k1,k2);
+        q.stroke();
+    }
+}
