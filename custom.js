@@ -3,13 +3,15 @@ class IMethods {
 }
 
 class Point extends IMethods {
-  constructor(x, y) {
+  constructor(x, y, color = "#ffffff") {
     super();
     this.x = x;
     this.y = y;
+    this.color = color;
   }
   draw(q) {
-    q.fillRect(this.x, this.y, 5, 5);
+    q.fillStyle = this.color;
+    q.fillRect(this.x, this.y, 10, 10);
   }
 }
 
@@ -67,7 +69,9 @@ class Polygon extends IMethods {
   }
 }
 function Otoczka(punkty) {
+  // sortowanie punktów
   const posortowane = punkty.sort((a, b) => a.x - b.x);
+  // policzenie wyznacznika
   const wyznacznik = (a, b, c) =>
     a[0] * b[1] * c[2] -
     a[0] * b[2] * c[1] -
@@ -77,8 +81,12 @@ function Otoczka(punkty) {
     c[0] * a[2] * b[1];
   const wyznacznikDlaPunktow = (a, b, c) =>
     wyznacznik([a.x, a.y, 1], [b.x, b.y, 1], [c.x, c.y, 1]);
+
+  //funckja służąca do wyznaczenia punktów otoczki
   const getHalf = (first = true) => {
     let punktyOtoczki1 = [posortowane[0], posortowane[1], posortowane[2]];
+
+    // główna pętla naszego algorytmu
     for (let i = 3; i < posortowane.length; i++) {
       let pointer;
 
@@ -95,6 +103,7 @@ function Otoczka(punkty) {
           endPoint
         );
 
+        // sprawdzamy wartość wyznacznika i w zalezności od jego wartosci wyrzucamy punkt
         if (first ? wynikWyznacznika > 0 : wynikWyznacznika < 0) {
           punktyOtoczki1 = punktyOtoczki1.filter(
             (i, index) => index !== pointer - 1
@@ -107,6 +116,8 @@ function Otoczka(punkty) {
 
     return punktyOtoczki1;
   };
+
+  // tworzy górną i dolną część otoczki
   const punktyOtoczkiGora = getHalf();
   const punktyOtoczkiDol = getHalf(false);
 
@@ -123,6 +134,7 @@ function Otoczka(punkty) {
 
   return odcinki;
 }
+
 function Poligony(punkty) {
   // Mapowanie współrzędnych do obiektu typu "Point".
   const punktyToPoints = punkty.map(
@@ -138,4 +150,44 @@ function Poligony(punkty) {
   polygon.forEach((element) => {
     element.draw(q);
   });
+}
+
+function przecieciaOdcinkow(lineA, lineB) {
+  // zadeklarowanie prostych
+  const p0_x = lineA.p1.x;
+  const p0_y = lineA.p1.y;
+  const p1_x = lineA.p2.x;
+  const p1_y = lineA.p2.y;
+
+  const p2_x = lineB.p1.x;
+  const p2_y = lineB.p1.y;
+  const p3_x = lineB.p2.x;
+  const p3_y = lineB.p2.y;
+
+  // długość odcinka
+  let st1_x, st1_y, st2_x, st2_y;
+
+  st1_x = p1_x - p0_x;
+  st1_y = p1_y - p0_y;
+  st2_x = p3_x - p2_x;
+  st2_y = p3_y - p2_y;
+
+  let s, t;
+  s =
+    (-st1_y * (p0_x - p2_x) + st1_x * (p0_y - p2_y)) /
+    (-st2_x * st1_y + st1_x * st2_y);
+  t =
+    (st2_x * (p0_y - p2_y) - st2_y * (p0_x - p2_x)) /
+    (-st2_x * st1_y + st1_x * st2_y);
+
+  if (s >= 0 && s <= 1 && t >= 0 && t <= 1) {
+    return {
+      koliduje: true,
+      punkt: new Point(p0_x + t * st1_x, p0_y + t * st1_y, "green"),
+    };
+  }
+
+  return {
+    koliduje: false,
+  };
 }
