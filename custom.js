@@ -10,7 +10,8 @@ class Point extends IMethods {
     this.color = color;
   }
   draw(q) {
-    q.fillRect(this.x, this.y, 1, 1);
+    q.fillStyle = this.color;
+    q.fillRect(this.x, this.y, 10, 10);
   }
 }
 
@@ -157,7 +158,6 @@ function przecieciaOdcinkow(lineA, lineB) {
   st2_x = p3_x - p2_x;
   st2_y = p3_y - p2_y;
 
-  // wyznaczenie środka odcinka
   let s, t;
   s =
     (-st1_y * (p0_x - p2_x) + st1_x * (p0_y - p2_y)) /
