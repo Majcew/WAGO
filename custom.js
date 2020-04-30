@@ -24,7 +24,7 @@ class Line extends IMethods {
   draw(q) {
     q.beginPath();
     q.moveTo(this.p1.x, this.p1.y);
-    q.lineWidth = 5;
+    q.lineWidth = 2;
     q.lineTo(this.p2.x, this.p2.y);
     q.closePath();
     q.stroke();
@@ -68,9 +68,7 @@ class Polygon extends IMethods {
     q.stroke();
   }
 }
-
-// Algorytm otoczki
-function otoczka(punkty) {
+function Otoczka(punkty) {
   // sortowanie punktów
   const posortowane = punkty.sort((a, b) => a.x - b.x);
   // policzenie wyznacznika
@@ -137,7 +135,23 @@ function otoczka(punkty) {
   return odcinki;
 }
 
-// Algorytm przecinania się odcinków
+function Poligony(punkty) {
+  // Mapowanie współrzędnych do obiektu typu "Point".
+  const punktyToPoints = punkty.map(
+    (response) => new Point(response[0] * 3, response[1] * 3)
+  );
+  // Rysowanie obiektów na canvasie.
+  punktyToPoints.forEach((element) => {
+    element.draw(q);
+  });
+  // tworzenie otoczki z punktów zadanych jako parametr funkcji
+  const polygon = Otoczka(punktyToPoints);
+  // Wyświetlanie tej otoczki na canvasie
+  polygon.forEach((element) => {
+    element.draw(q);
+  });
+}
+
 function przecieciaOdcinkow(lineA, lineB) {
   // zadeklarowanie prostych
   const p0_x = lineA.p1.x;
