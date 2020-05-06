@@ -15,7 +15,7 @@ class Point extends IMethods {
     this.y = y;
     this.color = color;
   }
-  //narysowanie punktu na canvasie gdzie q to kontekst canvasu
+  //narysowanie punktu na canvasie, gdzie q to kontekst canvasu
   draw(q) {
     q.fillStyle = this.color;
     q.fillRect(this.x, this.y, 10, 10);
@@ -31,7 +31,7 @@ class Line extends IMethods {
     this.p1 = p1;
     this.p2 = p2;
   }
-  //narysowanie lini na canvas
+  //narysowanie linii na canvasie, gdzie q to kontekst canvasu
   draw(q) {
     q.beginPath();
     q.moveTo(this.p1.x, this.p1.y);
@@ -53,6 +53,7 @@ class Circle extends IMethods {
     this.y = y;
     this.r = r;
   }
+  // narysowanie okręgu na canvasie, gdzie q to kontekst canvasu
   draw(q) {
     q.beginPath();
     q.arc(this.x, this.y, this.r, 0, 2 * Math.PI);
@@ -67,6 +68,7 @@ class Polygon extends IMethods {
     super();
     this.context = q;
   }
+  // narysowanie figury na canvasie, gdzie q to kontekst canvasu
   draw(p1, p2, p3, p4 = null, p5 = null, p6 = null, p7 = null, p8 = null) {
     let points = [
       [x1, y1],
@@ -196,6 +198,8 @@ function przecieciaOdcinkow(lineA, lineB) {
   st2_y = p3_y - p2_y;
 
   let s, t;
+  // odpowiednie działania za pomocą których wiemy, że 2 proste się przecinają
+  // źródło: https://stackoverflow.com/questions/9043805/test-if-two-lines-intersect-javascript-function
   s =
     (-st1_y * (p0_x - p2_x) + st1_x * (p0_y - p2_y)) /
     (-st2_x * st1_y + st1_x * st2_y);
@@ -203,14 +207,14 @@ function przecieciaOdcinkow(lineA, lineB) {
     (st2_x * (p0_y - p2_y) - st2_y * (p0_x - p2_x)) /
     (-st2_x * st1_y + st1_x * st2_y);
 
+  // warunek sprawdzający, czy dwie proste się przecinają (a tak na prawdę sprawdza, czy zmierzają do tego samego miejsca)
   if (s >= 0 && s <= 1 && t >= 0 && t <= 1) {
     return {
-      koliduje: true,
-      punkt: new Point(p0_x + t * st1_x, p0_y + t * st1_y, "green"),
+      koliduje: true, // odpowiedź algorytmu przedstawiony za pomocą booleana (w tym przypadku true).
+      punkt: new Point(p0_x + t * st1_x, p0_y + t * st1_y, "green"), // punkt przecięcia się dwóch prostych.
     };
   }
-
   return {
-    koliduje: false,
+    koliduje: false, // odpowiedź algorytmu przedstawiony za pomocą booleana (w tym przypadku false).
   };
 }
