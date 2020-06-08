@@ -1,9 +1,11 @@
 // pseudo-interfejs zawierający metode do rysowania na canvasie
 class IMethods {
   draw() {}
+  getColor() {}
+  setColor() {}
 }
 
-// klasa do stworzenia punktu, która dziedziczy po interfejsie IMethods
+// klasa do stworzenia punktu, która dziedziczy po interfejsie IMethods. Posiada 2 metody do kolorowania (parametr w konstruktorze bądź w metodzie draw).
 class Point extends IMethods {
   // przypisanie domyślnych wartości
   // gdzie x to wpsołrzędna punktu x
@@ -15,7 +17,8 @@ class Point extends IMethods {
     this.y = y;
     this.color = color;
   }
-  //narysowanie punktu na canvasie, gdzie q to kontekst canvasu
+  //narysowanie punktu na canvasie, gdzie q to kontekst canvasu, c to kolor
+  //(domyślnie jest undefined, żeby nie przypisywał śmieciowe dane do metody strokeStyle/fillStyle)
   draw(q, c = undefined) {
     if (!c) {
       //Jeżeli do metody "draw()" nie przypiszemy koloru, to on pobiera go z konstruktora
@@ -43,10 +46,11 @@ class Point extends IMethods {
 class Line extends IMethods {
   // przypisanie domyślnych wartości
   // p1,p2 - obiekty typu Point
-  constructor(p1, p2) {
+  constructor(p1, p2, color = "#000000") {
     super();
     this.p1 = p1;
     this.p2 = p2;
+    this.color = color;
   }
   //narysowanie linii na canvasie, gdzie q to kontekst canvasu
   draw(
@@ -66,6 +70,18 @@ class Line extends IMethods {
     q.closePath();
     q.stroke();
   }
+  //Getter odpowiedzialny za pobranie koloru linii
+  getColor() {
+    return this.color;
+  }
+  //Setter odpowiedzialny za zmianę koloru linii
+  setColor(value) {
+    try {
+      this.color = value;
+    } catch (e) {
+      console.log("Error message while trying to change the color: " + e);
+    }
+  }
 }
 
 // klasa służaca do utworzenia okręgu dziedzicząca po interfejsie IMethods
@@ -73,6 +89,7 @@ class Circle extends IMethods {
   // przypisanie domyślnych wartości
   // x,y - środek okręgu
   // r - promień
+  // color - kolor, domyślnie przyjmuje wartość #000000, czyli czarny
   constructor(x, y, r, color = "#000000") {
     super();
     this.x = x;
@@ -92,11 +109,24 @@ class Circle extends IMethods {
     q.arc(this.x, this.y, this.r, 0, 2 * Math.PI);
     q.stroke();
   }
+  //Getter odpowiedzialny za pobranie koloru okręgu
+  getColor() {
+    return this.color;
+  }
+  //Setter odpowiedzialny za zmianę koloru okręgu
+  setColor(value) {
+    try {
+      this.color = value;
+    } catch (e) {
+      console.log("Error message while trying to change the color: " + e);
+    }
+  }
 }
 
-// klasa służaca do utworzenia wielokątu (w tym wypadku 5-kątu)
+// klasa służaca do utworzenia wielokątu
 class Polygon extends IMethods {
   points = [];
+  // przyjmuje listę punktów i za pomocą nich tworzy figurę (jako obiekt).
   constructor(list, color = "#000000") {
     super();
     list.forEach((point) => {
@@ -118,6 +148,18 @@ class Polygon extends IMethods {
     }
     q.closePath();
     q.stroke();
+  }
+  //Getter odpowiedzialny za pobranie koloru figury
+  getColor() {
+    return this.color;
+  }
+  //Setter odpowiedzialny za zmianę koloru figury
+  setColor(value) {
+    try {
+      this.color = value;
+    } catch (e) {
+      console.log("Error message while trying to change the color: " + e);
+    }
   }
 }
 
