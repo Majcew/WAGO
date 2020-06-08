@@ -8,17 +8,34 @@ class Point extends IMethods {
   // przypisanie domyślnych wartości
   // gdzie x to wpsołrzędna punktu x
   // y to wspołrzedna punktu y
-  // color to kolor
-  constructor(x, y, color = "#ffffff") {
+  // color to kolor (domyślnie jest czarny, można zmienić jego kolor za pomocą funkcji "setColor").
+  constructor(x, y, color = "black") {
     super();
     this.x = x;
     this.y = y;
     this.color = color;
   }
   //narysowanie punktu na canvasie, gdzie q to kontekst canvasu
-  draw(q) {
-    q.fillStyle = this.color;
-    q.fillRect(this.x, this.y, 10, 10);
+  draw(q, c = undefined) {
+    if (!c) {
+      //Jeżeli do metody "draw()" nie przypiszemy koloru, to on pobiera go z konstruktora
+      q.fillStyle = this.color;
+    } else {
+      q.fillStyle = c;
+    }
+    q.fillRect(this.x, this.y, /*szerokość*/ 10, /*wysokość*/ 10);
+  }
+  //Getter odpowiedzialny za pobranie koloru punktu
+  getColor() {
+    return this.color;
+  }
+  //Setter odpowiedzialny za zmianę koloru punktu
+  setColor(value) {
+    try {
+      this.color = value;
+    } catch (e) {
+      console.log("Error message while trying to change the color: " + e);
+    }
   }
 }
 
@@ -32,10 +49,19 @@ class Line extends IMethods {
     this.p2 = p2;
   }
   //narysowanie linii na canvasie, gdzie q to kontekst canvasu
-  draw(q) {
+  draw(
+    q,
+    /*opcjonalny parametr - kolor linii przypisany w metodzie, domyślnie jest undefined*/ c = undefined
+  ) {
     q.beginPath();
     q.moveTo(this.p1.x, this.p1.y);
     q.lineWidth = 2;
+    //Wykorzystaliśmy tutaj skrócony zapis ifa dostępny w javascripcie ("ternary statement" po angielsku).
+    c
+      ? //Jeżeli podaliśmy jakiś argument (np kolor "white") do parametru metody draw, to wywołuje się ten kawałek, w innym przypadku tamten
+        (q.strokeStyle = c)
+      : //Pobiera z punktu początkowego kolor (od tego jest właśnie metoda "getColor()") oraz tworzy linię z tym kolorem.
+        (q.strokeStyle = this.p1.getColor());
     q.lineTo(this.p2.x, this.p2.y);
     q.closePath();
     q.stroke();
@@ -47,15 +73,22 @@ class Circle extends IMethods {
   // przypisanie domyślnych wartości
   // x,y - środek okręgu
   // r - promień
-  constructor(x, y, r) {
+  constructor(x, y, r, color = "#000000") {
     super();
     this.x = x;
     this.y = y;
     this.r = r;
+    this.color = color;
   }
   // narysowanie okręgu na canvasie, gdzie q to kontekst canvasu
-  draw(q) {
+  draw(q, c = undefined) {
     q.beginPath();
+    //Wykorzystaliśmy tutaj skrócony zapis ifa dostępny w javascripcie ("ternary statement" po angielsku).
+    c
+      ? //Jeżeli podaliśmy jakiś argument (np kolor "white") do parametru metody draw, to wywołuje się ten kawałek, w innym przypadku tamten
+        (q.strokeStyle = c)
+      : //Pobiera z obiektu kolor.
+        (q.strokeStyle = this.color);
     q.arc(this.x, this.y, this.r, 0, 2 * Math.PI);
     q.stroke();
   }
@@ -63,24 +96,25 @@ class Circle extends IMethods {
 
 // klasa służaca do utworzenia wielokątu (w tym wypadku 5-kątu)
 class Polygon extends IMethods {
-  //ten tak zostanie na razie
-  constructor(context) {
+  points = [];
+  constructor(list, color = "#000000") {
     super();
-    this.context = q;
+    list.forEach((point) => {
+      this.points.push(point);
+    });
+    this.color = color;
   }
   // narysowanie figury na canvasie, gdzie q to kontekst canvasu
-  draw(p1, p2, p3, p4 = null, p5 = null, p6 = null, p7 = null, p8 = null) {
-    let points = [
-      [x1, y1],
-      [x2, y2],
-      [x3, y3],
-      [x4, y4],
-      [x5, y5],
-    ];
+  draw(q, c = undefined) {
     q.beginPath();
-    q.moveTo(points[0][0], points[0][1]);
-    for (var i = 1; i < points.length; i++) {
-      q.lineTo(points[i][0], points[i][1]);
+    c
+      ? //Jeżeli podaliśmy jakiś argument (np kolor "white") do parametru metody draw, to wywołuje się ten kawałek, w innym przypadku tamten
+        (q.strokeStyle = c)
+      : //Pobiera z obiektu kolor.
+        (q.strokeStyle = this.color);
+    q.moveTo(this.points[0].x, this.points[0].y);
+    for (var i = 1; i < this.points.length; i++) {
+      q.lineTo(this.points[i].x, this.points[i].y);
     }
     q.closePath();
     q.stroke();
