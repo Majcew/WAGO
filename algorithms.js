@@ -130,6 +130,7 @@ function przecieciaOdcinkow(lineA, lineB) {
   };
 }
 
+// Algorytm służący do sprawdzenia czy podany wielokąt jest wypukły.
 function wielokatWypukly(figura) {
   //Pobieramy listę punktów danego wielokąta.
   const punkty = figura.getPoints();
@@ -179,6 +180,7 @@ function wielokatWypukly(figura) {
   return wynik;
 }
 
+// Algorytm służący do sprawdzenia czy podany wielokąt jest prosty
 function wielokatProsty(figura) {
   const punkty = figura.getPoints();
   const linie = [];
@@ -193,6 +195,7 @@ function wielokatProsty(figura) {
     }
   }
 
+  //Sprawdzenie punktów przecięć
   for (let i = 0; i < linie.length; i++) {
     if (i === linie.length - 1) {
       wynik.push(przecieciaOdcinkow(linie[i], linie[0]));
