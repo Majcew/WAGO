@@ -178,3 +178,27 @@ function wielokatWypukly(figura) {
   });
   return wynik;
 }
+
+function wielokatProsty(figura) {
+  const punkty = figura.getPoints();
+  const linie = [];
+  let wynik = [];
+
+  //Pushowanie linii do tablicy (wygenerowane za pomocą punktów)
+  for (let i = 0; i < punkty.length; i++) {
+    if (i === punkty.length - 1) {
+      linie.push(new Line(punkty[i], punkty[0]));
+    } else {
+      linie.push(new Line(punkty[i], punkty[i + 1]));
+    }
+  }
+
+  for (let i = 0; i < linie.length; i++) {
+    if (i === linie.length - 1) {
+      wynik.push(przecieciaOdcinkow(linie[i], linie[0]));
+    } else {
+      wynik.push(przecieciaOdcinkow(linie[i], linie[i + 1]));
+    }
+  }
+  return wynik;
+}
