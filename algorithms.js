@@ -129,3 +129,52 @@ function przecieciaOdcinkow(lineA, lineB) {
     koliduje: false, // odpowiedź algorytmu przedstawiony za pomocą booleana (w tym przypadku false).
   };
 }
+
+function wielokatWypukly(figura) {
+  //Pobieramy listę punktów danego wielokąta.
+  const punkty = figura.getPoints();
+  //Długość tablicy punktów (potrzebna do pętli for oraz liczenia wyznacznika)
+  const dlugosc = punkty.length;
+  //Tablica z wyznacznikami 3x3, pomocnicza stała tablica
+  const det = [];
+  let wynik = true;
+  /*Pomocnicza funkcja dla liczenia wyznacznika 3x3
+    wyznaczkik przyjmuje 3 punkty oraz liczy w taki sposób
+    [a.x, a.y, 1
+     b.x, b.y ,1
+     c.y, c.y ,1], gdzie a to punkty (a.x, a.y), b to (b.x, b.y) itd.*/
+  const wyznacznik = (a, b, c) => {
+    return (
+      a.x * b.y * 1 +
+      a.y * 1 * c.x +
+      1 * b.x * c.y -
+      1 * b.y * c.x -
+      a.y * b.x * 1 -
+      a.x * 1 * c.y
+    );
+  };
+
+  for (let i = 0; i < dlugosc; i++) {
+    //Trzy punkty do wyznacznika, jeżeli wszystkie wyznaczniki będą dodatnie to figura jest wypukła
+    let punktyDoSprawdzenia = [
+      punkty[i % dlugosc],
+      punkty[(i + 1) % dlugosc],
+      punkty[(i + 2) % dlugosc],
+    ];
+    //Wynik wyznacznika dodajemy do tablicy
+    det.push(
+      wyznacznik(
+        punktyDoSprawdzenia[0],
+        punktyDoSprawdzenia[1],
+        punktyDoSprawdzenia[2]
+      )
+    );
+  }
+  det.forEach((el) => {
+    //Punkty wybieraliśmy według wskazówki zegara, więc ujemny wyznacznik mówi nam, że figura nie jest wypukła
+    if (el < 0) {
+      wynik = false;
+    }
+  });
+  return wynik;
+}

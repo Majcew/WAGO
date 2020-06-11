@@ -161,4 +161,7 @@ class Polygon extends IMethods {
       console.log("Error message while trying to change the color: " + e);
     }
   }
+  getPoints() {
+    return this.points;
+  }
 }
