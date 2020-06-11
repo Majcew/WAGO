@@ -161,6 +161,7 @@ class Polygon extends IMethods {
       console.log("Error message while trying to change the color: " + e);
     }
   }
+  //Zwraca liste punktów wielokąta
   getPoints() {
     return this.points;
   }
