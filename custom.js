@@ -1,3 +1,5 @@
+// autorzy Szymon Babula i Krzysztof Dragon
+
 // pseudo-interfejs zawierający metode do rysowania na canvasie
 class IMethods {
   draw() {}
@@ -39,6 +41,11 @@ class Point extends IMethods {
     } catch (e) {
       console.log("Error message while trying to change the color: " + e);
     }
+  }
+
+  setPoint(value) {
+    this.x += value;
+    this.draw(q);
   }
 }
 
@@ -165,4 +172,65 @@ class Polygon extends IMethods {
   getPoints() {
     return this.points;
   }
+}
+
+// klasa umozliwiająca przesuwanie i obracanie elementów
+class Controls {
+  constructor(elements, canvasElement, container) {
+    // inicjalizacja klasy
+    this.elements = elements;
+    this.canvas = canvasElement;
+    this.container = container;
+    this.transformation = {
+      translation: {
+        x: 0,
+        y: 0,
+      },
+    };
+    this.mouseDown = false;
+  }
+
+  initControlContainer() {
+    // ustawiamy HTML który jest interfejsem dla użytkownika
+    this.container.innerHTML = "controler";
+
+    // obsługa kliknięć użytkownika
+    this.controlContainer.querySelector(".up").onclick = () => {
+      this.transformation.translation.y += 10;
+      this.draw();
+    };
+
+    this.controlContainer.querySelector(".down").onclick = () => {
+      this.transformation.translation.y -= 10;
+      this.draw();
+    };
+
+    this.controlContainer.querySelector(".left").onclick = () => {
+      this.transformation.translation.x += 10;
+      this.draw();
+    };
+
+    this.controlContainer.querySelector(".right").onclick = () => {
+      this.transformation.translation.x -= 10;
+      this.draw();
+    };
+
+    this.controlContainer.querySelector(".zoom-in").onclick = () => {
+      const context = this.canvas.getContext("2d");
+      context.scale(1.1, 1.1);
+      this.draw();
+    };
+
+    this.controlContainer.querySelector(".zoom-out").onclick = () => {
+      const context = this.canvas.getContext("2d");
+      context.scale(0.9, 0.9);
+      this.draw();
+    };
+  }
+}
+
+function przesun(value) {
+  can.width = can.width;
+
+  console.log(q);
 }

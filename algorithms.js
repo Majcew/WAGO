@@ -1,3 +1,5 @@
+// autorzy Szymon Babula i Krzysztof Dragon
+
 // Algorytm służacy do narysowania zewnętrznej otoczki, przyjmujący liste punktów
 function otoczka(punkty) {
   // sortowanie punktów

@@ -1,18 +1,49 @@
 <!DOCTYPE html>
 <html>
-
-<head>
+  <head>
     <!-- Ustawienie kodowania Unicode -->
-    <meta charset="utf-8">
+    <meta charset="utf-8" />
     <!-- Ustawienie skalowania strony na urządzeniach -->
-    <meta name="viewport" content="width=device-width, user-scalable=no">
+    <meta name="viewport" content="width=device-width, user-scalable=no" />
     <!-- Podpięcie custom.js czyli naszej biblioteki i pliku script.js -->
+    <meta name="author" content="Krzysztof Dragon i Szymon Babula" />
     <script src="custom.js"></script>
-    <script src='algorithms.js'></script>
-	<script src="script.js"></script>
-</head>
+    <script src="algorithms.js"></script>
+    <script src="script.js"></script>
+  </head>
 
-<body>
+  <body>
     <!-- Narysowanie canvasu -->
-    <canvas id="canvas" width = 300 height = 300 style="background-color: brown;">
-</body>
+    <canvas
+      id="canvas"
+      width="600"
+      height="600"
+      style="background-color: brown;"
+    ></canvas>
+
+    <div id="controler" style="background-color: gray; width: 600px;">
+      <div>
+        <div>
+          <button class="up" style="width: 120;">Góra</button>
+          <button class="down" style="width: 120;">Dół</button>
+        </div>
+        <div>
+          <button class="left" style="width: 60;" onclick="przesun(-10);">
+            Lewo
+          </button>
+          <button class="right" style="width: 60;" onclick="przesun(10);">
+            Prawo
+          </button>
+        </div>
+      </div>
+      <div>
+        <button class="turn-left">Obróć w lewo</button>
+        <button class="turn-right">Obróć w prawo</button>
+      </div>
+    </div>
+
+    <footer>
+      <div id="autors">Autorzy: Szymon Babula Krzysztof Dragon</div>
+    </footer>
+  </body>
+</html>
