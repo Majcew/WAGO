@@ -1,5 +1,7 @@
 // autorzy Szymon Babula i Krzysztof Dragon
 
+let value = 0;
+
 // pseudo-interfejs zawierający metode do rysowania na canvasie
 class IMethods {
   draw() {}
@@ -201,7 +203,7 @@ class Polygon extends IMethods {
 
 // Musi mieć listę obiektów
 function przesun(value) {
-  can.width = can.width;
+  clearCanvas();
   list.forEach((el) => {
     el.setPointX(value);
   });
@@ -209,8 +211,19 @@ function przesun(value) {
 
 // Musi mieć listę obiektów
 function przesun2(value) {
-  can.width = can.width;
+  clearCanvas();
   list.forEach((el) => {
     el.setPointY(value);
   });
+}
+function obrot(_value) {
+  value += _value;
+  q.save();
+  q.translate(350, 200);
+  q.rotate((Math.PI / 180) * value);
+  q.restore();
+}
+
+function clearCanvas() {
+  can.width = can.width;
 }
