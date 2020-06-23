@@ -216,12 +216,30 @@ function przesun2(value) {
     el.setPointY(value);
   });
 }
+
+// Funkcja która próbuje obrócić elementy na canvas
 function obrot(_value) {
   value += _value;
   q.save();
-  q.translate(350, 200);
-  q.rotate((Math.PI / 180) * value);
+  q.translate(300, 300);
+  q.rotate(Math.PI / 4);
+  list.forEach((el) => {
+    el.draw(q);
+  });
+  //q.strokeRect(600 / 2, 200 / 2, 200, 200);
   q.restore();
+}
+
+function obr(b) {
+  b /= 360;
+  b *= dwaPi;
+  a -= b;
+  a11 = s * Math.cos(a);
+  a12 = s * Math.sin(a);
+  let b1p = b1 * Math.cos(-b) + b2 * Math.sin(-b);
+  let b2p = -b1 * Math.sin(-b) + b2 * Math.cos(-b);
+  b1 = b1p;
+  b2 = b2p;
 }
 
 function clearCanvas() {
