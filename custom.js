@@ -42,9 +42,12 @@ class Point extends IMethods {
       console.log("Error message while trying to change the color: " + e);
     }
   }
-
-  setPoint(value) {
+  setPointX(value) {
     this.x += value;
+    this.draw(q);
+  }
+  setPointY(value) {
+    this.y += value;
     this.draw(q);
   }
 }
@@ -88,6 +91,16 @@ class Line extends IMethods {
     } catch (e) {
       console.log("Error message while trying to change the color: " + e);
     }
+  }
+  setPointX(value) {
+    this.p1.x += value;
+    this.p2.x += value;
+    this.draw(q);
+  }
+  setPointY(value) {
+    this.p1.y += value;
+    this.p2.y += value;
+    this.draw(q);
   }
 }
 
@@ -172,65 +185,32 @@ class Polygon extends IMethods {
   getPoints() {
     return this.points;
   }
-}
-
-// klasa umozliwiająca przesuwanie i obracanie elementów
-class Controls {
-  constructor(elements, canvasElement, container) {
-    // inicjalizacja klasy
-    this.elements = elements;
-    this.canvas = canvasElement;
-    this.container = container;
-    this.transformation = {
-      translation: {
-        x: 0,
-        y: 0,
-      },
-    };
-    this.mouseDown = false;
+  setPointX(value) {
+    this.points.forEach((el) => {
+      el.x += value;
+    });
+    this.draw(q);
   }
-
-  initControlContainer() {
-    // ustawiamy HTML który jest interfejsem dla użytkownika
-    this.container.innerHTML = "controler";
-
-    // obsługa kliknięć użytkownika
-    this.controlContainer.querySelector(".up").onclick = () => {
-      this.transformation.translation.y += 10;
-      this.draw();
-    };
-
-    this.controlContainer.querySelector(".down").onclick = () => {
-      this.transformation.translation.y -= 10;
-      this.draw();
-    };
-
-    this.controlContainer.querySelector(".left").onclick = () => {
-      this.transformation.translation.x += 10;
-      this.draw();
-    };
-
-    this.controlContainer.querySelector(".right").onclick = () => {
-      this.transformation.translation.x -= 10;
-      this.draw();
-    };
-
-    this.controlContainer.querySelector(".zoom-in").onclick = () => {
-      const context = this.canvas.getContext("2d");
-      context.scale(1.1, 1.1);
-      this.draw();
-    };
-
-    this.controlContainer.querySelector(".zoom-out").onclick = () => {
-      const context = this.canvas.getContext("2d");
-      context.scale(0.9, 0.9);
-      this.draw();
-    };
+  setPointY(value) {
+    this.points.forEach((el) => {
+      el.y += value;
+    });
+    this.draw(q);
   }
 }
 
+// Musi mieć listę obiektów
 function przesun(value) {
   can.width = can.width;
+  list.forEach((el) => {
+    el.setPointX(value);
+  });
+}
 
-  console.log(q);
+// Musi mieć listę obiektów
+function przesun2(value) {
+  can.width = can.width;
+  list.forEach((el) => {
+    el.setPointY(value);
+  });
 }
