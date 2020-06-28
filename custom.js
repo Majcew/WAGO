@@ -1,5 +1,7 @@
 // autorzy Szymon Babula i Krzysztof Dragon
 
+let list = [];
+
 // pseudo-interfejs zawierający metode do rysowania na canvasie
 class IMethods {
   draw() {}
@@ -218,14 +220,12 @@ function przesun2(value) {
 // Funkcja która próbuje obrócić elementy na canvas
 function obrot(value) {
   clearCanvas();
-  q.save();
   q.translate(300, 300);
   q.rotate((Math.PI / 180) * value);
   list.forEach((el) => {
     el.draw(q);
   });
   //q.strokeRect(600 / 2, 200 / 2, 200, 200);
-  q.restore();
 }
 
 function obr(b) {
