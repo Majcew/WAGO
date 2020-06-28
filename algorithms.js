@@ -1,21 +1,37 @@
 // autorzy Szymon Babula i Krzysztof Dragon
 
-// Algorytm służacy do narysowania zewnętrznej otoczki, przyjmujący liste punktów
-function otoczka(punkty) {
-  // sortowanie punktów
-  const posortowane = punkty.sort((a, b) => a.x - b.x);
-  // policzenie wyznacznika z macierzy 3x3
-  const wyznacznik = (a, b, c) =>
+// Funkcja wyznaczający wyznacznik dla funkcji "otoczka"
+function wyznacznikOtoczki(a, b, c) {
+  return (
     a[0] * b[1] * c[2] -
     a[0] * b[2] * c[1] -
     b[0] * a[1] * c[2] +
     b[0] * a[2] * c[1] +
     c[0] * a[1] * b[2] -
-    c[0] * a[2] * b[1];
+    c[0] * a[2] * b[1]
+  );
+}
+
+// Funkcja wyznaczający wyznacznik dla funkcji "wielokątWypukły"
+function wyznacznikWielokątWypukły(a, b, c) {
+  return (
+    a.x * b.y * 1 +
+    a.y * 1 * c.x +
+    1 * b.x * c.y -
+    1 * b.y * c.x -
+    a.y * b.x * 1 -
+    a.x * 1 * c.y
+  );
+}
+// Algorytm służacy do narysowania zewnętrznej otoczki, przyjmujący liste punktów
+function otoczka(punkty) {
+  // sortowanie punktów
+  const posortowane = punkty.sort((a, b) => a.x - b.x);
+  // policzenie wyznacznika z macierzy 3x3
 
   // funkcja pomocnicza
   const wyznacznikDlaPunktow = (a, b, c) =>
-    wyznacznik([a.x, a.y, 1], [b.x, b.y, 1], [c.x, c.y, 1]);
+    wyznacznikOtoczki([a.x, a.y, 1], [b.x, b.y, 1], [c.x, c.y, 1]);
 
   //funckja służąca do wyznaczenia punktów otoczki
   const getHalf = (first = true) => {
@@ -146,16 +162,6 @@ function wielokatWypukly(figura) {
     [a.x, a.y, 1
      b.x, b.y ,1
      c.y, c.y ,1], gdzie a to punkty (a.x, a.y), b to (b.x, b.y) itd.*/
-  const wyznacznik = (a, b, c) => {
-    return (
-      a.x * b.y * 1 +
-      a.y * 1 * c.x +
-      1 * b.x * c.y -
-      1 * b.y * c.x -
-      a.y * b.x * 1 -
-      a.x * 1 * c.y
-    );
-  };
 
   for (let i = 0; i < dlugosc; i++) {
     //Trzy punkty do wyznacznika, jeżeli wszystkie wyznaczniki będą dodatnie to figura jest wypukła
@@ -166,7 +172,7 @@ function wielokatWypukly(figura) {
     ];
     //Wynik wyznacznika dodajemy do tablicy
     det.push(
-      wyznacznik(
+      wyznacznikWielokątWypukły(
         punktyDoSprawdzenia[0],
         punktyDoSprawdzenia[1],
         punktyDoSprawdzenia[2]
