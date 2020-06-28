@@ -1,7 +1,8 @@
 // autorzy Szymon Babula i Krzysztof Dragon
 
 let list = [];
-
+let _x = 0,
+  _y = 0;
 // pseudo-interfejs zawierający metode do rysowania na canvasie
 class IMethods {
   draw() {}
@@ -44,10 +45,12 @@ class Point extends IMethods {
       console.log("Error message while trying to change the color: " + e);
     }
   }
+  //Ustawia nową wartość do współrzędnej x
   setPointX(value) {
     this.x += value;
     this.draw(q);
   }
+  //Ustawia nową wartość do współrzędnej y
   setPointY(value) {
     this.y += value;
     this.draw(q);
@@ -204,6 +207,7 @@ class Polygon extends IMethods {
 // Musi mieć listę obiektów
 function przesun(value) {
   clearCanvas();
+  q.translate(300, 300);
   list.forEach((el) => {
     el.setPointX(value);
   });
@@ -212,6 +216,7 @@ function przesun(value) {
 // Musi mieć listę obiektów
 function przesun2(value) {
   clearCanvas();
+  q.translate(300, 300);
   list.forEach((el) => {
     el.setPointY(value);
   });
@@ -221,25 +226,16 @@ function przesun2(value) {
 function obrot(value) {
   clearCanvas();
   q.translate(300, 300);
+  // Wyznaczanie środka canvasu
   q.rotate((Math.PI / 180) * value);
+  //Rysowanie elementów po obrocie.
   list.forEach((el) => {
     el.draw(q);
   });
   //q.strokeRect(600 / 2, 200 / 2, 200, 200);
 }
 
-function obr(b) {
-  b /= 360;
-  b *= dwaPi;
-  a -= b;
-  a11 = s * Math.cos(a);
-  a12 = s * Math.sin(a);
-  let b1p = b1 * Math.cos(-b) + b2 * Math.sin(-b);
-  let b2p = -b1 * Math.sin(-b) + b2 * Math.cos(-b);
-  b1 = b1p;
-  b2 = b2p;
-}
-
+//funkcja czyszcząca canvas
 function clearCanvas() {
   can.width = can.width;
 }
