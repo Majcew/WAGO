@@ -4,4 +4,5 @@
 window.onload = function () {
   can = this.document.getElementById("canvas");
   q = can.getContext("2d");
+  q.translate(300, 300);
 };

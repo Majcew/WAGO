@@ -41,8 +41,14 @@
         </div>
       </div>
       <div>
-        <button class="turn-left">Obróć w lewo</button>
-        <button class="turn-right">Obróć w prawo</button>
+        <input
+          class="turn-left"
+          type="range"
+          value="0"
+          min="0"
+          max="360"
+          onchange="obrot(value);"
+        /><span id="widthX"></span>
       </div>
     </div>
 
