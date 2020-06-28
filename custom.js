@@ -31,7 +31,7 @@ class Point extends IMethods {
     } else {
       q.fillStyle = c;
     }
-    q.fillRect(this.x, this.y, /*szerokość*/ 10, /*wysokość*/ 10);
+    q.fillRect(this.x - 5, this.y - 5, /*szerokość*/ 10, /*wysokość*/ 10);
   }
   //Getter odpowiedzialny za pobranie koloru punktu
   getColor() {
